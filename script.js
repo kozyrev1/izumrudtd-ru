@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- БЛОК УПРАВЛЕНИЯ COOKIE ---
-    const cookieBanner = document.getElementById('cookie-consent-banner');
+    // --- БЛОК УПРАВЛЕНИЯ МОДАЛЬНЫМ ОКНОМ COOKIE ---
+    const modalOverlay = document.getElementById('cookie-modal-overlay');
     const acceptBtn = document.getElementById('cookie-accept-btn');
 
     if (!localStorage.getItem('cookieConsent')) {
-        cookieBanner.classList.add('active');
+        modalOverlay.classList.add('active');
     }
 
     acceptBtn.addEventListener('click', function() {
         localStorage.setItem('cookieConsent', 'true');
-        cookieBanner.classList.remove('active');
+        modalOverlay.classList.remove('active');
     });
 
     // --- БЛОК ОТПРАВКИ ФОРМЫ В TELEGRAM ---
@@ -24,10 +24,9 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Пожалуйста, подтвердите ваше согласие с Политикой конфиденциальности.');
             return;
         }
-
-        // !!! ЗАМЕНИТЕ ЭТИ ДАННЫЕ НА ВАШИ !!!
-        const BOT_TOKEN = '8320122576:AAG8tOmrKMJBV_4NmbLT4PP19_pccY0gXkM'; 
-        const CHAT_ID = '-1002915497111';     
+        
+        // Ключи BOT_TOKEN и CHAT_ID берутся из файла config.js
+        // Здесь их больше нет!
 
         let message = '<b>Заявка с сайта izumrudtd.ru</b>\n';
         message += `<b>Имя:</b> ${this.name.value}\n`;
