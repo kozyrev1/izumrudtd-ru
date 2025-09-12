@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- БЛОК УПРАВЛЕНИЯ МОДАЛЬНЫМ ОКНОМ COOKIE (без изменений) ---
+    // --- БЛОК УПРАВЛЕНИЯ МОДАЛЬНЫМ ОКНОМ COOKIE ---
     const modalOverlay = document.getElementById('cookie-modal-overlay');
     const acceptBtn = document.getElementById('cookie-accept-btn');
 
@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
         modalOverlay.classList.remove('active');
     });
 
-    // --- ОБНОВЛЕННЫЙ БЛОК ОТПРАВКИ ФОРМЫ ---
-    const contactForm = document.getElementById('telegram-form'); // Используем старый ID, чтобы не менять HTML
+    // --- БЛОК ОТПРАВКИ ФОРМЫ ---
+    const contactForm = document.getElementById('telegram-form'); 
 
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -43,29 +43,22 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => {
             if (response.ok) {
-                // Если email ушел успешно, показываем сообщение и отправляем уведомление в TG
                 alert('Спасибо! Ваша заявка успешно отправлена.');
-                sendTelegramNotification(data); // Отправляем уведомление в Telegram
+                sendTelegramNotification(data); 
                 contactForm.reset();
             } else {
-                // Если ошибка с почтой, пытаемся отправить хотя бы в Telegram
                 response.json().then(data => {
-                    if (data.errors) {
-                        alert("Ошибка: " + data.errors.map(error => error.message).join(", "));
-                    } else {
-                        alert('Произошла ошибка при отправке на почту. Попробуйте снова.');
-                    }
-                    sendTelegramNotification(data, true); // Отправляем с пометкой об ошибке
+                    alert('Произошла ошибка при отправке. Попробуйте снова.');
+                    sendTelegramNotification(data, true);
                 });
             }
         })
         .catch(error => {
-            // Если совсем нет сети
             alert('Произошла ошибка сети. Пожалуйста, проверьте ваше интернет-соединение.');
-            sendTelegramNotification(data, true); // Отправляем с пометкой об ошибке
+            sendTelegramNotification(data, true);
+
         })
         .finally(() => {
-            // В любом случае разблокируем кнопку
             submitButton.disabled = false;
             submitButton.textContent = originalButtonText;
         });
@@ -73,9 +66,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Вспомогательная функция для отправки УВЕДОМЛЕНИЯ в Telegram
     function sendTelegramNotification(data, isError = false) {
-        let message = '<b>✅ Новая заявка с сайта izumrudtd.ru</b>\n';
+        let message = '✅ Новая заявка с сайта izumrudtd.ru\n';
         if (isError) {
-            message = '<b>❗️ ОШИБКА EMAIL. Заявка только в Telegram</b>\n';
+            message = '❗️ ОШИБКА EMAIL. Заявка только в Telegram\n';
         }
 
         message += `<b>Имя:</b> ${data.name}\n`;
@@ -85,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}&parse_mode=html`;
         
-        // Отправляем "тихо", без ожидания ответа, т.к. это лишь уведомление
         fetch(url);
     }
 });
