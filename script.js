@@ -13,71 +13,56 @@ document.addEventListener('DOMContentLoaded', function() {
         modalOverlay.classList.remove('active');
     });
 
-    // --- БЛОК ОТПРАВКИ ФОРМЫ ---
+    // --- УЛУЧШЕННЫЙ БЛОК ОТПРАВКИ ФОРМЫ ---
     const contactForm = document.getElementById('telegram-form'); 
 
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        const privacyCheckbox = document.getElementById('privacy-agree');
-        if (!privacyCheckbox.checked) {
-            alert('Пожалуйста, подтвердите ваше согласие с Политикой конфиденциальности.');
-            return;
-        }
-
-        const submitButton = contactForm.querySelector('button[type="submit"]');
-        const originalButtonText = submitButton.textContent;
-        
-        // --- ЗАЩИТА ОТ ПОВТОРНЫХ НАЖАТИЙ ---
-        submitButton.disabled = true;
-        submitButton.textContent = 'Отправка...';
-
-        const formData = new FormData(contactForm);
-        const data = Object.fromEntries(formData.entries());
-
-        // 1. ОСНОВНОЕ ДЕЙСТВИЕ: Отправка на Email через Formspree
-        fetch(FORMSPREE_ENDPOINT, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: { 'Accept': 'application/json' }
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('Спасибо! Ваша заявка успешно отправлена.');
-                sendTelegramNotification(data); 
-                contactForm.reset();
-            } else {
-                response.json().then(data => {
-                    alert('Произошла ошибка при отправке. Попробуйте снова.');
-                    sendTelegramNotification(data, true);
-                });
+            const privacyCheckbox = document.getElementById('privacy-agree');
+            if (!privacyCheckbox.checked) {
+                alert('Пожалуйста, подтвердите ваше согласие с Политикой конфиденциальности.');
+                return;
             }
-        })
-        .catch(error => {
-            alert('Произошла ошибка сети. Пожалуйста, проверьте ваше интернет-соединение.');
-            sendTelegramNotification(data, true);
 
-        })
-        .finally(() => {
-            submitButton.disabled = false;
-            submitButton.textContent = originalButtonText;
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            
+            // 1. Блокируем кнопку для защиты от повторных нажатий
+            submitButton.disabled = true;
+            submitButton.textContent = 'Отправка...';
+
+            const formData = new FormData(contactForm);
+            const data = Object.fromEntries(formData.entries());
+
+            // 2. Создаем два независимых запроса: один на почту, другой в Telegram
+            
+            // Запрос №1: Основной - отправка на Email через Formspree
+            const formspreePromise = fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Accept': 'application/json' }
+            });
+
+            // Запрос №2: Уведомление - отправка в Telegram (с минимумом ПД)
+            let telegramMessage = `✅ <b>Новая заявка с сайта izumrudtd.ru</b>\n\n`;
+            telegramMessage += `<b>Имя:</b> ${data.name}\n`;
+            telegramMessage += `<b>Телефон:</b> ${data.phone}\n\n`;
+            telegramMessage += `<i>Подробности отправлены на почту.</i>`;
+
+            const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(telegramMessage)}&parse_mode=html`;
+            const telegramPromise = fetch(telegramUrl);
+
+            // 3. Ждем выполнения ОБЕИХ операций, неважно, успешны они или нет
+            Promise.allSettled([formspreePromise, telegramPromise])
+                .finally(() => {
+                    // 4. После того, как все завершилось, показываем общее сообщение об успехе и разблокируем кнопку
+                    alert('Спасибо! Ваша заявка отправлена. Мы скоро свяжемся с вами.');
+                    contactForm.reset();
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                });
         });
-    });
-
-    // Вспомогательная функция для отправки УВЕДОМЛЕНИЯ в Telegram
-    function sendTelegramNotification(data, isError = false) {
-        let message = '✅ Новая заявка с сайта izumrudtd.ru\n';
-        if (isError) {
-            message = '❗️ ОШИБКА EMAIL. Заявка только в Telegram\n';
-        }
-
-        message += `<b>Имя:</b> ${data.name}\n`;
-        message += `<b>Телефон:</b> ${data.phone}\n`;
-        message += `<b>Email:</b> ${data.email || 'не указан'}\n`;
-        message += `<b>Город:</b> ${data.city || 'не указан'}`;
-
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}&parse_mode=html`;
-        
-        fetch(url);
     }
 });
