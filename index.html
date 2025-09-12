@@ -51,10 +51,16 @@
                 <h2>Получите индивидуальное предложение</h2>
                 <p>Наш специалист свяжется с вами, рассчитает стоимость партии с доставкой и ответит на все вопросы.</p>
                 <form id="telegram-form">
+                    <!-- Скрытые поля для Formspree: тема письма и копия пользователю -->
+                    <input type="hidden" name="_subject" id="form-subject">
+                    <input type="hidden" name="_cc" id="form-cc">
+
                     <input type="text" name="name" placeholder="Ваше имя" required>
                     <input type="tel" name="phone" placeholder="Ваш телефон *" required>
-                    <input type="email" name="email" placeholder="Ваш Email">
-                    <input type="text" name="city" placeholder="Город доставки">
+                    <input type="email" name="email" placeholder="Ваш Email (для получения копии заявки)">
+                    
+                    <textarea name="request" placeholder="Опишите ваш запрос: марка талька, необходимый объем, город и сроки доставки..."></textarea>
+
                     <div class="privacy-checkbox">
                         <input type="checkbox" id="privacy-agree" name="privacy-agree" required>
                         <label for="privacy-agree">Я согласен с <a href="privacy.html" target="_blank">Политикой конфиденциальности</a> и даю согласие на обработку персональных данных.</label>

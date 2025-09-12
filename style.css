@@ -52,18 +52,18 @@ a:hover { text-decoration: underline; }
 .feature-item p { color: var(--text-color-light); font-size: 0.95em; }
 
 .form-section { background-color: var(--card-background); }
-#telegram-form {
-    max-width: 600px;
-    margin: 30px auto 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+#telegram-form { max-width: 600px; margin: 30px auto 0 auto; display: flex; flex-direction: column; gap: 20px; }
+#telegram-form input,
+#telegram-form textarea {
+    padding: 15px; border: 1px solid #ddd; border-radius: 12px; font-size: 1em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color); transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
-#telegram-form input { 
-    padding: 15px; border: 1px solid #ddd; border-radius: 12px; font-size: 1em; background-color: var(--background-color);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+#telegram-form textarea { min-height: 120px; resize: vertical; }
+#telegram-form input:focus,
+#telegram-form textarea:focus {
+    border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2); outline: none;
 }
-#telegram-form input:focus { border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2); outline: none; }
 .privacy-checkbox { display: flex; align-items: flex-start; line-height: 1.4; color: var(--text-color-light); font-size: 0.9em; }
 .privacy-checkbox input[type="checkbox"] { margin-right: 10px; min-width: 16px; margin-top: 4px; }
 .btn:disabled { background-color: #515154; cursor: not-allowed; opacity: 0.7; }

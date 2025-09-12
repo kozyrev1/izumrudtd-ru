@@ -29,36 +29,47 @@ document.addEventListener('DOMContentLoaded', function() {
             const submitButton = contactForm.querySelector('button[type="submit"]');
             const originalButtonText = submitButton.textContent;
             
-            // 1. Блокируем кнопку для защиты от повторных нажатий
             submitButton.disabled = true;
             submitButton.textContent = 'Отправка...';
 
             const formData = new FormData(contactForm);
             const data = Object.fromEntries(formData.entries());
 
-            // 2. Создаем два независимых запроса: один на почту, другой в Telegram
+            // 1. Генерируем уникальный номер заявки
+            const orderId = 'IZ-' + String(Date.now()).slice(-6);
+
+            // 2. Устанавливаем тему письма и адрес для копии (автоответа)
+            const subjectInput = document.getElementById('form-subject');
+            const ccInput = document.getElementById('form-cc');
             
-            // Запрос №1: Основной - отправка на Email через Formspree
+            subjectInput.value = `Новая заявка №${orderId} с сайта izumrudtd.ru`;
+            if (data.email) {
+                ccInput.value = data.email;
+            }
+
+            // 3. Отправляем данные в Formspree (это отправит письмо вам и копию пользователю)
             const formspreePromise = fetch(FORMSPREE_ENDPOINT, {
                 method: 'POST',
-                body: JSON.stringify(data),
+                body: new FormData(contactForm), // Formspree лучше работает с FormData для скрытых полей
                 headers: { 'Accept': 'application/json' }
             });
 
-            // Запрос №2: Уведомление - отправка в Telegram (с минимумом ПД)
-            let telegramMessage = `✅ <b>Новая заявка с сайта izumrudtd.ru</b>\n\n`;
+            // 4. Отправляем уведомление в Telegram
+            let telegramMessage = `✅ <b>Заявка №${orderId}</b>\n\n`;
             telegramMessage += `<b>Имя:</b> ${data.name}\n`;
             telegramMessage += `<b>Телефон:</b> ${data.phone}\n\n`;
-            telegramMessage += `<i>Подробности отправлены на почту.</i>`;
+            if (data.request) {
+                telegramMessage += `<b>Запрос:</b> ${data.request}\n\n`;
+            }
+            telegramMessage += `<i>Подробности и email на почте.</i>`;
 
             const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(telegramMessage)}&parse_mode=html`;
             const telegramPromise = fetch(telegramUrl);
 
-            // 3. Ждем выполнения ОБЕИХ операций, неважно, успешны они или нет
+            // 5. Ждем завершения всех операций и сообщаем результат
             Promise.allSettled([formspreePromise, telegramPromise])
                 .finally(() => {
-                    // 4. После того, как все завершилось, показываем общее сообщение об успехе и разблокируем кнопку
-                    alert('Спасибо! Ваша заявка отправлена. Мы скоро свяжемся с вами.');
+                    alert('Спасибо! Ваша заявка отправлена. Мы скоро свяжемся с вами. Если вы указали Email, копия заявки отправлена вам на почту.');
                     contactForm.reset();
                     submitButton.disabled = false;
                     submitButton.textContent = originalButtonText;
