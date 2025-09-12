@@ -5,5 +5,13 @@
 // ===============================================
 
 const BOT_TOKEN = '8320122576:AAG8tOmrKMJBV_4NmbLT4PP19_pccY0gXkM'; 
+// --- Telegram ---
+// Токен вашего бота, полученный от @BotFather
+const BOT_TOKEN = 'ВАШ_BOT_TOKEN_СЮДА'; 
 
-const CHAT_ID = '-1002915497111';
+// ID вашего чата для получения уведомлений, начинается со знака "-"
+const CHAT_ID = 'ВАШ_CHAT_ID_СЮДА';
+
+// --- Formspree (для отправки на Email) ---
+// Уникальный URL вашей формы, полученный на сайте formspree.io
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xxxxxxxx'; // <-- ЗАМЕНИТЕ xxxxxxxx НА ВАШ УНИКАЛЬНЫЙ КОД

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- БЛОК УПРАВЛЕНИЯ МОДАЛЬНЫМ ОКНОМ COOKIE ---
+    // --- БЛОК УПРАВЛЕНИЯ МОДАЛЬНЫМ ОКНОМ COOKIE (без изменений) ---
     const modalOverlay = document.getElementById('cookie-modal-overlay');
     const acceptBtn = document.getElementById('cookie-accept-btn');
 
@@ -13,10 +13,10 @@ document.addEventListener('DOMContentLoaded', function() {
         modalOverlay.classList.remove('active');
     });
 
-    // --- БЛОК ОТПРАВКИ ФОРМЫ В TELEGRAM ---
-    const telegramForm = document.getElementById('telegram-form');
+    // --- ОБНОВЛЕННЫЙ БЛОК ОТПРАВКИ ФОРМЫ ---
+    const contactForm = document.getElementById('telegram-form'); // Используем старый ID, чтобы не менять HTML
 
-    telegramForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
         const privacyCheckbox = document.getElementById('privacy-agree');
@@ -24,30 +24,68 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Пожалуйста, подтвердите ваше согласие с Политикой конфиденциальности.');
             return;
         }
-        
-        // Ключи BOT_TOKEN и CHAT_ID берутся из файла config.js
-        // Здесь их больше нет!
 
-        let message = '<b>Заявка с сайта izumrudtd.ru</b>\n';
-        message += `<b>Имя:</b> ${this.name.value}\n`;
-        message += `<b>Телефон:</b> ${this.phone.value}\n`;
-        message += `<b>Email:</b> ${this.email.value || 'не указан'}\n`;
-        message += `<b>Город:</b> ${this.city.value || 'не указан'}`;
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+        
+        // --- ЗАЩИТА ОТ ПОВТОРНЫХ НАЖАТИЙ ---
+        submitButton.disabled = true;
+        submitButton.textContent = 'Отправка...';
+
+        const formData = new FormData(contactForm);
+        const data = Object.fromEntries(formData.entries());
+
+        // 1. ОСНОВНОЕ ДЕЙСТВИЕ: Отправка на Email через Formspree
+        fetch(FORMSPREE_ENDPOINT, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Если email ушел успешно, показываем сообщение и отправляем уведомление в TG
+                alert('Спасибо! Ваша заявка успешно отправлена.');
+                sendTelegramNotification(data); // Отправляем уведомление в Telegram
+                contactForm.reset();
+            } else {
+                // Если ошибка с почтой, пытаемся отправить хотя бы в Telegram
+                response.json().then(data => {
+                    if (data.errors) {
+                        alert("Ошибка: " + data.errors.map(error => error.message).join(", "));
+                    } else {
+                        alert('Произошла ошибка при отправке на почту. Попробуйте снова.');
+                    }
+                    sendTelegramNotification(data, true); // Отправляем с пометкой об ошибке
+                });
+            }
+        })
+        .catch(error => {
+            // Если совсем нет сети
+            alert('Произошла ошибка сети. Пожалуйста, проверьте ваше интернет-соединение.');
+            sendTelegramNotification(data, true); // Отправляем с пометкой об ошибке
+        })
+        .finally(() => {
+            // В любом случае разблокируем кнопку
+            submitButton.disabled = false;
+            submitButton.textContent = originalButtonText;
+        });
+    });
+
+    // Вспомогательная функция для отправки УВЕДОМЛЕНИЯ в Telegram
+    function sendTelegramNotification(data, isError = false) {
+        let message = '<b>✅ Новая заявка с сайта izumrudtd.ru</b>\n';
+        if (isError) {
+            message = '<b>❗️ ОШИБКА EMAIL. Заявка только в Telegram</b>\n';
+        }
+
+        message += `<b>Имя:</b> ${data.name}\n`;
+        message += `<b>Телефон:</b> ${data.phone}\n`;
+        message += `<b>Email:</b> ${data.email || 'не указан'}\n`;
+        message += `<b>Город:</b> ${data.city || 'не указан'}`;
 
         const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}&parse_mode=html`;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data.ok) {
-                    alert('Спасибо! Ваша заявка успешно отправлена.');
-                    this.reset();
-                } else {
-                    alert('Произошла ошибка. Попробуйте снова или свяжитесь с нами по телефону.');
-                }
-            })
-            .catch(error => {
-                alert('Произошла ошибка сети. Пожалуйста, проверьте ваше интернет-соединение.');
-            });
-    });
+        
+        // Отправляем "тихо", без ожидания ответа, т.к. это лишь уведомление
+        fetch(url);
+    }
 });
