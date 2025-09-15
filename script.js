@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('telegram-form'); 
 
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const privacyCheckbox = document.getElementById('privacy-agree');
@@ -39,41 +39,59 @@ document.addEventListener('DOMContentLoaded', function() {
             const orderId = 'IZ-' + String(Date.now()).slice(-6);
 
             // 2. Устанавливаем тему письма и адрес для копии (автоответа)
-            const subjectInput = document.getElementById('form-subject');
-            const ccInput = document.getElementById('form-cc');
-            
-            subjectInput.value = `Новая заявка №${orderId} с сайта izumrudtd.ru`;
+            document.getElementById('form-subject').value = `Новая заявка №${orderId} с сайта izumrudtd.ru`;
             if (data.email) {
-                ccInput.value = data.email;
+                document.getElementById('form-cc').value = data.email;
             }
 
-            // 3. Отправляем данные в Formspree (это отправит письмо вам и копию пользователю)
-            const formspreePromise = fetch(FORMSPREE_ENDPOINT, {
-                method: 'POST',
-                body: new FormData(contactForm), // Formspree лучше работает с FormData для скрытых полей
-                headers: { 'Accept': 'application/json' }
-            });
-
-            // 4. Отправляем уведомление в Telegram
-            let telegramMessage = `✅ <b>Заявка №${orderId}</b>\n\n`;
-            telegramMessage += `<b>Имя:</b> ${data.name}\n`;
-            telegramMessage += `<b>Телефон:</b> ${data.phone}\n\n`;
-            if (data.request) {
-                telegramMessage += `<b>Запрос:</b> ${data.request}\n\n`;
+            // 3. Отправляем ОБА запроса параллельно
+            try {
+                await Promise.all([
+                    sendToFormspree(new FormData(contactForm)),
+                    sendToTelegram(data, orderId)
+                ]);
+                alert('Спасибо! Ваша заявка отправлена. Мы скоро свяжемся с вами.');
+                contactForm.reset();
+            } catch (error) {
+                console.error("Ошибка при отправке формы:", error);
+                alert('Произошла ошибка при отправке. Пожалуйста, попробуйте снова или свяжитесь с нами напрямую.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
             }
-            telegramMessage += `<i>Подробности и email на почте.</i>`;
-
-            const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(telegramMessage)}&parse_mode=html`;
-            const telegramPromise = fetch(telegramUrl);
-
-            // 5. Ждем завершения всех операций и сообщаем результат
-            Promise.allSettled([formspreePromise, telegramPromise])
-                .finally(() => {
-                    alert('Спасибо! Ваша заявка отправлена. Мы скоро свяжемся с вами. Если вы указали Email, копия заявки отправлена вам на почту.');
-                    contactForm.reset();
-                    submitButton.disabled = false;
-                    submitButton.textContent = originalButtonText;
-                });
         });
+    }
+
+    async function sendToFormspree(formData) {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        });
+        if (!response.ok) {
+            throw new Error('Ошибка отправки на Formspree');
+        }
+        return response.json();
+    }
+
+    async function sendToTelegram(data, orderId) {
+        let telegramMessage = `✅ <b>Заявка №${orderId}</b>\n\n`;
+        telegramMessage += `<b>Имя:</b> ${data.name}\n`;
+        telegramMessage += `<b>Телефон:</b> ${data.phone}\n\n`;
+        if (data.request && data.request.trim() !== '') {
+            telegramMessage += `<b>Запрос:</b> ${data.request}\n\n`;
+        }
+        telegramMessage += `<i>Подробности и email на почте.</i>`;
+
+        const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(telegramMessage)}&parse_mode=html`;
+        
+        try {
+            const response = await fetch(telegramUrl);
+            if (!response.ok) {
+                console.error('Ошибка отправки в Telegram: ', await response.json());
+            }
+        } catch (error) {
+            console.error('Сетевая ошибка при отправке в Telegram: ', error);
+        }
     }
 });
