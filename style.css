@@ -6,6 +6,7 @@
     --accent-color: #0071e3;
     --accent-color-hover: #0077ed;
     --card-background: #ffffff;
+    --header-background: rgba(29, 29, 31, 0.9);
 }
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -15,6 +16,7 @@ body {
     background-color: var(--background-color);
     -webkit-font-smoothing: antialiased;
 }
+html { scroll-behavior: smooth; }
 img, svg { max-width: 100%; height: auto; }
 .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 h1, h2, h3 { line-height: 1.2; font-weight: 600; }
@@ -23,6 +25,31 @@ a { color: var(--accent-color); text-decoration: none; }
 a:hover { text-decoration: underline; }
 .section-title { text-align: center; font-size: 2.8em; margin-bottom: 20px; }
 .section-subtitle { text-align: center; font-size: 1.2em; color: var(--text-color-light); margin-top: 0; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
+
+/* --- ШАПКА САЙТА --- */
+.topbar {
+    background-color: #1d1d1f;
+    color: #f5f5f7;
+    font-size: 0.85em;
+    padding: 8px 0;
+}
+.topbar-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.topbar-address { display: flex; align-items: center; gap: 8px; }
+.topbar-address svg { stroke: currentColor; }
+.topbar-contact a { color: #f5f5f7; font-weight: 500; text-decoration: none; }
+.topbar-contact a:hover { color: var(--accent-color); }
+.main-nav {
+    background-color: var(--header-background);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky; top: 0; z-index: 100;
+}
+.nav-content { display: flex; justify-content: space-between; align-items: center; height: 52px; }
+.logo { font-size: 1.2em; font-weight: 600; color: #fff; text-decoration: none; }
+.main-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 25px; }
+.main-nav a { color: #f5f5f7; text-decoration: none; font-size: 0.9em; transition: color 0.3s ease; }
+.main-nav a:hover { color: var(--accent-color); text-decoration: none; }
 
 /* --- СТИЛИ КОМПОНЕНТОВ --- */
 .btn {
@@ -112,6 +139,10 @@ a:hover { text-decoration: underline; }
 }
 @media (max-width: 768px) {
     .section-title, h1 { font-size: 2.2em; }
+    .topbar-content { justify-content: center; }
+    .main-nav { position: static; }
+    .nav-content { flex-direction: column; height: auto; padding: 15px 0; gap: 15px; }
+    .main-nav ul { flex-wrap: wrap; justify-content: center; gap: 15px 20px; }
     .hero { text-align: center; }
     .hero-text { text-align: center; }
     .hero .hero-subtitle { margin-left: auto; margin-right: auto; }

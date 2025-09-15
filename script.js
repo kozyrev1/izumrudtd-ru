@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Функция для отправки на почту
     async function sendToFormspree(formData) {
         try {
             const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Функция для отправки в Telegram
     async function sendToTelegram(data, orderId) {
         if (!BOT_TOKEN || !CHAT_ID || BOT_TOKEN.includes('ВАШ_BOT_TOKEN_СЮДА')) {
              console.error('Ключи для Telegram не настроены в config.js');
