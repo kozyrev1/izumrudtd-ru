@@ -15,7 +15,7 @@ body {
     background-color: var(--background-color);
     -webkit-font-smoothing: antialiased;
 }
-img { max-width: 100%; height: auto; }
+img, svg { max-width: 100%; height: auto; }
 .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 h1, h2, h3 { line-height: 1.2; font-weight: 600; }
 section { padding: 80px 0; }
@@ -43,34 +43,41 @@ a:hover { text-decoration: underline; }
 .hero .hero-subtitle { font-size: 1.2em; max-width: 500px; margin-left: 0; margin-bottom: 35px; color: rgba(255,255,255,0.9); text-align: left; }
 
 .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-.feature-item { text-align: left; }
-.feature-item img { width: 100%; height: 220px; object-fit: cover; border-radius: 20px; margin-bottom: 20px; }
+.feature-item {
+    background-color: var(--card-background); padding: 30px; border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.feature-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+.feature-item img { width: 100%; height: 220px; object-fit: cover; border-radius: 16px; margin-bottom: 20px; }
 .feature-item h3 { margin-bottom: 10px; font-size: 1.5em; }
 .feature-item p { color: var(--text-color-light); font-size: 1em; }
 
 .industries { background-color: var(--card-background); }
-.industries-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 60px; }
-.industry-item { display: flex; align-items: flex-start; gap: 20px; }
+.industries-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+.industry-item {
+    display: flex; align-items: flex-start; gap: 20px;
+    background-color: var(--background-color); padding: 25px; border-radius: 16px;
+}
 .industry-icon {
-    flex-shrink: 0; width: 32px; height: 32px; background-color: var(--accent-color); color: white;
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 20px; font-weight: bold;
+    flex-shrink: 0; width: 32px; height: 32px; margin-top: 5px;
+    stroke: var(--accent-color);
 }
 .industry-text h3 { margin-top: 0; margin-bottom: 5px; font-size: 1.3em; }
 .industry-text p { margin: 0; color: var(--text-color-light); }
 
-.form-section { background-color: var(--card-background); }
+.form-section { background-color: var(--background-color); }
 #telegram-form { max-width: 600px; margin: 30px auto 0 auto; display: flex; flex-direction: column; gap: 20px; }
 #telegram-form input, #telegram-form textarea {
-    padding: 15px; border: 1px solid #ddd; border-radius: 12px; font-size: 1em;
+    padding: 15px; border: 1px solid #d1d1d6; border-radius: 12px; font-size: 1em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--background-color); transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff; transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 #telegram-form textarea { min-height: 120px; resize: vertical; }
 #telegram-form input:focus, #telegram-form textarea:focus { border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2); outline: none; }
 .privacy-checkbox { display: flex; align-items: flex-start; line-height: 1.4; color: var(--text-color-light); font-size: 0.9em; }
 .privacy-checkbox input[type="checkbox"] { margin-right: 10px; min-width: 16px; margin-top: 4px; }
-.btn:disabled { background-color: #515154; cursor: not-allowed; opacity: 0.7; }
+.btn:disabled { background-color: #86868b; cursor: not-allowed; opacity: 0.8; }
 
 .final-cta { text-align: center; }
 .final-cta h2 { font-size: 2.5em; }
@@ -102,7 +109,7 @@ a:hover { text-decoration: underline; }
 .privacy-page p, .privacy-page li { color: var(--text-color-light); }
 
 @media (max-width: 900px) { 
-    .features-grid { grid-template-columns: 1fr; gap: 50px; }
+    .features-grid { grid-template-columns: 1fr; gap: 40px; }
     .industries-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 768px) {

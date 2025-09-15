@@ -35,25 +35,26 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData(contactForm);
             const data = Object.fromEntries(formData.entries());
 
-            // 1. Генерируем уникальный номер заявки
             const orderId = 'IZ-' + String(Date.now()).slice(-6);
 
-            // 2. Устанавливаем тему письма и адрес для копии (автоответа)
             document.getElementById('form-subject').value = `Новая заявка №${orderId} с сайта izumrudtd.ru`;
             if (data.email) {
                 document.getElementById('form-cc').value = data.email;
             }
 
-            // 3. Отправляем ОБА запроса параллельно
             try {
-                await Promise.all([
-                    sendToFormspree(new FormData(contactForm)),
-                    sendToTelegram(data, orderId)
-                ]);
+                // Отправляем оба запроса одновременно
+                const formspreePromise = sendToFormspree(new FormData(contactForm));
+                const telegramPromise = sendToTelegram(data, orderId);
+
+                // Ждем, пока оба запроса завершатся
+                await Promise.all([formspreePromise, telegramPromise]);
+
                 alert('Спасибо! Ваша заявка отправлена. Мы скоро свяжемся с вами.');
                 contactForm.reset();
+
             } catch (error) {
-                console.error("Ошибка при отправке формы:", error);
+                console.error("Ошибка при отправке на Formspree:", error);
                 alert('Произошла ошибка при отправке. Пожалуйста, попробуйте снова или свяжитесь с нами напрямую.');
             } finally {
                 submitButton.disabled = false;
@@ -69,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: { 'Accept': 'application/json' }
         });
         if (!response.ok) {
-            throw new Error('Ошибка отправки на Formspree');
+            throw new Error(`Ошибка Formspree: ${response.statusText}`);
         }
         return response.json();
     }
