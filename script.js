@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modalOverlay.classList.remove('active');
     });
 
-    // --- УЛУЧШЕННЫЙ БЛОК ОТПРАВКИ ФОРМЫ ---
+    // --- ФИНАЛЬНЫЙ БЛОК ОТПРАВКИ ФОРМЫ ---
     const contactForm = document.getElementById('telegram-form'); 
 
     if (contactForm) {
@@ -35,22 +35,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData(contactForm);
             const data = Object.fromEntries(formData.entries());
 
+            // 1. Генерируем уникальный номер заявки
             const orderId = 'IZ-' + String(Date.now()).slice(-6);
 
+            // 2. Устанавливаем тему письма. Поле _cc удалено, т.к. это платная функция.
             document.getElementById('form-subject').value = `Новая заявка №${orderId} с сайта izumrudtd.ru`;
-            if (data.email) {
-                document.getElementById('form-cc').value = data.email;
-            }
-
+            
+            // 3. Отправляем ОБА запроса параллельно
             try {
-                // Отправляем оба запроса одновременно
-                const formspreePromise = sendToFormspree(new FormData(contactForm));
-                const telegramPromise = sendToTelegram(data, orderId);
+                // Главный запрос - на почту. Если он не пройдет, будет ошибка.
+                await sendToFormspree(new FormData(contactForm));
 
-                // Ждем, пока оба запроса завершатся
-                await Promise.all([formspreePromise, telegramPromise]);
+                // Уведомление в Telegram. Его возможная ошибка не повлияет на пользователя.
+                sendToTelegram(data, orderId);
 
-                alert('Спасибо! Ваша заявка отправлена. Мы скоро свяжемся с вами.');
+                // УЛУЧШЕННОЕ СООБЩЕНИЕ ДЛЯ ПОЛЬЗОВАТЕЛЯ
+                alert(`Спасибо! Ваша заявка №${orderId} принята. Мы скоро свяжемся с вами.`);
                 contactForm.reset();
 
             } catch (error) {
@@ -76,19 +76,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function sendToTelegram(data, orderId) {
-        let telegramMessage = `✅ <b>Заявка №${orderId}</b>\n\n`;
+        // ОБНОВЛЕННОЕ, БЕЗОПАСНОЕ СООБЩЕНИЕ В TELEGRAM
+        let telegramMessage = `✅ <b>Новая заявка №${orderId}</b>\n\n`;
         telegramMessage += `<b>Имя:</b> ${data.name}\n`;
-        telegramMessage += `<b>Телефон:</b> ${data.phone}\n\n`;
-        if (data.request && data.request.trim() !== '') {
-            telegramMessage += `<b>Запрос:</b> ${data.request}\n\n`;
-        }
-        telegramMessage += `<i>Подробности и email на почте.</i>`;
+        // Мы больше не отправляем телефон и суть запроса в Telegram для соблюдения ФЗ-152
+        telegramMessage += `\n<i>Все подробности на почте.</i>`;
 
         const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(telegramMessage)}&parse_mode=html`;
         
         try {
             const response = await fetch(telegramUrl);
             if (!response.ok) {
+                // Логируем ошибку для себя, но не беспокоим пользователя
                 console.error('Ошибка отправки в Telegram: ', await response.json());
             }
         } catch (error) {
