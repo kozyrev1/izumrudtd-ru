@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modalOverlay.classList.remove('active');
     });
 
-    // --- ФИНАЛЬНЫЙ, САМЫЙ НАДЕЖНЫЙ БЛОК ОТПРАВКИ ФОРМЫ ---
+    // --- ФИНАЛЬНЫЙ БЛОК ОТПРАВКИ ФОРМЫ ---
     const contactForm = document.getElementById('telegram-form'); 
 
     if (contactForm) {
@@ -35,28 +35,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData(contactForm);
             const data = Object.fromEntries(formData.entries());
 
-            // 1. Генерируем уникальный номер заявки
             const orderId = 'IZ-' + String(Date.now()).slice(-6);
 
-            // 2. Устанавливаем тему письма
             document.getElementById('form-subject').value = `Новая заявка №${orderId} с сайта izumrudtd.ru`;
             
-            // 3. Запускаем обе отправки параллельно, не дожидаясь ответа
+            // Запускаем обе отправки параллельно, не дожидаясь ответа
             sendToFormspree(new FormData(contactForm));
             sendToTelegram(data, orderId);
 
-            // 4. СРАЗУ показываем пользователю сообщение об успехе
-            // Это решает проблему "ложной" ошибки сети
+            // Сразу показываем пользователю сообщение об успехе
             setTimeout(() => {
                 alert(`Спасибо! Ваша заявка №${orderId} принята. Мы скоро свяжемся с вами.`);
                 contactForm.reset();
                 submitButton.disabled = false;
                 submitButton.textContent = originalButtonText;
-            }, 500); // Небольшая задержка для имитации отправки
+            }, 500);
         });
     }
 
-    // Функция для отправки на почту. Она больше не будет вызывать ошибку для пользователя.
     async function sendToFormspree(formData) {
         try {
             const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -72,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Функция для отправки в Telegram
     async function sendToTelegram(data, orderId) {
         if (!BOT_TOKEN || !CHAT_ID || BOT_TOKEN.includes('ВАШ_BOT_TOKEN_СЮДА')) {
              console.error('Ключи для Telegram не настроены в config.js');
