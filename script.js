@@ -69,9 +69,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const formspreeResult = results[0];
 
             if (formspreeResult.status === 'fulfilled') {
+                // ИЗМЕНЕН ТЕКСТ УСПЕШНОГО УВЕДОМЛЕНИЯ
                 showNotification(
                     'Заявка принята!',
-                    `Спасибо! Ваша заявка №<b>${orderId}</b> успешно отправлена. Наш менеджер скоро свяжется с вами.`,
+                    `Ваша заявка №<b>${orderId}</b> принята. Наш специалист свяжется с вами в течение часа.`,
                     true
                 );
                 formContainer.style.display = 'none';
@@ -103,20 +104,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData,
                 headers: { 'Accept': 'application/json' }
             });
-
-            // Если статус ответа 2xx (успех), то всё хорошо, даже если тело ответа пустое.
+            
+            // Если статус ответа 2xx (успех), то всё хорошо. Это главная проверка.
             if (response.ok) {
                 return { success: true };
             } else {
                 // Если сервер вернул ошибку, пытаемся получить её текст
-                let errorData;
+                let errorText = `Ошибка сервера: ${response.status}`;
                 try {
-                    errorData = await response.json();
+                    const errorData = await response.json();
+                    if (errorData && errorData.error) {
+                        errorText = errorData.error;
+                    }
                 } catch (e) {
-                    // Если ответ не JSON, используем текстовый статус
-                    throw new Error(response.statusText);
+                    // Ошибка, если ответ не JSON
+                    console.warn("Ответ от Formspree об ошибке не в формате JSON.");
                 }
-                throw new Error(errorData.error || 'Неизвестная ошибка сервера');
+                throw new Error(errorText);
             }
         } catch (error) {
             // Обрабатываем сетевые ошибки (нет интернета и т.д.)
@@ -124,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
             throw error; // Передаем ошибку дальше, чтобы Promise.allSettled её поймал
         }
     }
-
 
     async function sendToTelegram(data, orderId) {
         // Убраны все персональные данные
