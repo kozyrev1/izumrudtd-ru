@@ -1,7 +1,7 @@
-/* --- ДИЗАЙН-СИСТЕМА v3.4 (iOS-стиль) --- */
+/* --- ДИЗАЙН-СИСТЕМА v3.5 (iOS-стиль) --- */
 
 :root {
-    /* Новый системный шрифт, как в iOS/macOS */
+    /* Системный шрифт, как в iOS/macOS */
     --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
     --background-color: #ffffff;
@@ -52,11 +52,11 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    height: 150px; /* Увеличена высота шапки */
+    height: 96px; /* Сбалансированная высота шапки */
 }
 .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
 .logo .logo-header { 
-    height: 150px; /* Увеличен логотип в шапке */
+    height: 72px; /* Сбалансированный размер логотипа */
     width: auto; 
 }
 .logo span { font-size: 1.2em; font-weight: 600; color: var(--text-color); }
@@ -100,7 +100,7 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 .industry-item:hover { transform: translateY(-8px); box-shadow: 0 12px 35px rgba(0,0,0,0.08); }
 .industry-icon-wrapper { 
     flex-shrink: 0; 
-    width: 130px; height: 130px; /* Увеличен размер контейнера */
+    width: 130px; height: 130px; 
     display: flex; 
     justify-content: center; 
     align-items: center; 
@@ -108,7 +108,7 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     border-radius: 24px; 
 }
 .industry-icon { 
-    width: 120px; height: 120px; /* Увеличен размер иконки */
+    width: 72px; height: 72px; 
 }
 .industry-text h3 { 
     margin-top: 0; 
@@ -157,7 +157,7 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 .footer-col h4 { font-size: 1.05em; color: #fff; margin-bottom: 20px; font-weight: 500; }
 .footer-col .logo span { color: #fff; font-size: 1.4em; }
 .footer-col .logo .logo-footer { 
-    height: 150px; /* Увеличен логотип в подвале */
+    height: 90px; /* Сбалансированный размер логотипа */
     width: auto; 
 }
 .footer-col a { color: #d1d1d6; }
