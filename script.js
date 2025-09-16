@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const messageEl = modal.querySelector('p');
 
         titleEl.textContent = title;
-        messageEl.innerHTML = message; // Используем innerHTML для возможности вставлять теги
+        messageEl.innerHTML = message;
 
         if (isSuccess) {
             iconEl.textContent = '✓';
@@ -52,11 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            if (!document.getElementById('privacy-agree').checked) {
-                showNotification('Требуется согласие', 'Пожалуйста, подтвердите ваше согласие с Политикой конфиденциальности.', false);
-                return;
-            }
-
             const submitButton = contactForm.querySelector('button[type="submit"]');
             const originalButtonText = submitButton.textContent;
             submitButton.disabled = true;
@@ -67,60 +62,74 @@ document.addEventListener('DOMContentLoaded', function() {
             const orderId = 'IZ-' + String(Date.now()).slice(-6);
             document.getElementById('form-subject').value = `Новая заявка №${orderId} с сайта izumrudtd.ru`;
 
-            // Улучшенная логика отправки
             const formspreePromise = sendToFormspree(new FormData(contactForm));
             const telegramPromise = sendToTelegram(data, orderId);
 
-            // Promise.allSettled дождется выполнения всех промисов, независимо от их результата
             const results = await Promise.allSettled([formspreePromise, telegramPromise]);
             const formspreeResult = results[0];
 
             if (formspreeResult.status === 'fulfilled') {
-                // Главный канал (почта) сработал - это успех
                 showNotification(
                     'Заявка принята!',
                     `Спасибо! Ваша заявка №<b>${orderId}</b> успешно отправлена. Наш менеджер скоро свяжется с вами.`,
                     true
                 );
-                formContainer.style.display = 'none'; // Скрываем форму
-                successMessageContainer.classList.add('visible'); // Показываем сообщение об успехе
+                formContainer.style.display = 'none';
+                successMessageContainer.classList.add('visible');
                 contactForm.reset();
             } else {
-                // Ошибка отправки на почту - это критично
                 console.error("Ошибка при отправке на Formspree:", formspreeResult.reason);
                 showNotification(
                     'Ошибка отправки',
                     'Произошла ошибка. Пожалуйста, попробуйте снова или свяжитесь с нами напрямую.',
                     false
                 );
-                // В случае ошибки, снова включаем кнопку
                 submitButton.disabled = false;
                 submitButton.textContent = originalButtonText;
             }
         });
     }
 
+    // --- КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ ЗДЕСЬ ---
     async function sendToFormspree(formData) {
-        const response = await fetch(FORMSPREE_ENDPOINT, {
-            method: 'POST',
-            body: formData,
-            headers: { 'Accept': 'application/json' }
-        });
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`Ошибка Formspree: ${errorData.error || response.statusText}`);
+        try {
+            // Убедимся, что константа из config.js определена
+            if (typeof FORMSPREE_ENDPOINT === 'undefined' || !FORMSPREE_ENDPOINT) {
+                throw new Error('FORMSPREE_ENDPOINT не определен в config.js!');
+            }
+
+            const response = await fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            // Если статус ответа 2xx (успех), то всё хорошо, даже если тело ответа пустое.
+            if (response.ok) {
+                return { success: true };
+            } else {
+                // Если сервер вернул ошибку, пытаемся получить её текст
+                let errorData;
+                try {
+                    errorData = await response.json();
+                } catch (e) {
+                    // Если ответ не JSON, используем текстовый статус
+                    throw new Error(response.statusText);
+                }
+                throw new Error(errorData.error || 'Неизвестная ошибка сервера');
+            }
+        } catch (error) {
+            // Обрабатываем сетевые ошибки (нет интернета и т.д.)
+            console.error('Сетевая ошибка или ошибка в логике Formspree:', error);
+            throw error; // Передаем ошибку дальше, чтобы Promise.allSettled её поймал
         }
-        return response.json();
     }
 
+
     async function sendToTelegram(data, orderId) {
-        let message = `✅ <b>Заявка №${orderId} с сайта</b>\n\n`;
-        message += `<b>Имя:</b> ${data.name || 'Не указано'}\n`;
-        message += `<b>Телефон:</b> ${data.phone || 'Не указан'}\n`;
-        if (data.company) {
-            message += `<b>Компания:</b> ${data.company}\n`;
-        }
-        message += `\n<i>Подробности на почте.</i>`;
+        // Убраны все персональные данные
+        let message = `✅ <b>Новая заявка №${orderId}</b>\n\n`;
+        message += `<i>Все подробности на почте.</i>`;
 
         if (typeof BOT_TOKEN === 'undefined' || typeof CHAT_ID === 'undefined') {
             throw new Error('BOT_TOKEN или CHAT_ID не определены в config.js!');
