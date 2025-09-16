@@ -1,4 +1,4 @@
-/* --- ДИЗАЙН-СИСТЕМА v3.2 (iOS-стиль) --- */
+/* --- ДИЗАЙН-СИСТЕМА v3.4 (iOS-стиль) --- */
 
 :root {
     /* Новый системный шрифт, как в iOS/macOS */
@@ -48,9 +48,17 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 
 /* --- ШАПКА САЙТА --- */
 .main-nav { background-color: var(--header-background); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid var(--header-border); position: sticky; top: 0; z-index: 100; }
-.nav-content { display: flex; justify-content: space-between; align-items: center; height: 88px; }
+.nav-content { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    height: 150px; /* Увеличена высота шапки */
+}
 .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-.logo .logo-header { height: 65px; width: auto; }
+.logo .logo-header { 
+    height: 150px; /* Увеличен логотип в шапке */
+    width: auto; 
+}
 .logo span { font-size: 1.2em; font-weight: 600; color: var(--text-color); }
 .nav-links { list-style: none; margin: 0; padding: 0; display: flex; gap: 40px; }
 .nav-links a { color: var(--text-color); text-decoration: none; font-size: 1em; font-weight: 500; }
@@ -78,13 +86,44 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 
 /* --- ОТРАСЛИ (INDUSTRIES) --- */
 .industries { background-color: var(--background-light-gray); }
-.industries-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
-.industry-item { background-color: var(--card-background); padding: 35px; border-radius: 20px; border: 1px solid #f0f0f0; display: flex; gap: 30px; align-items: flex-start; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.industries-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+.industry-item { 
+    background-color: var(--card-background); 
+    padding: 40px; 
+    border-radius: 24px; 
+    border: 1px solid #eef0f2; 
+    display: flex; 
+    gap: 35px; 
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
 .industry-item:hover { transform: translateY(-8px); box-shadow: 0 12px 35px rgba(0,0,0,0.08); }
-.industry-icon-wrapper { flex-shrink: 0; width: 100px; height: 100px; display: flex; justify-content: center; align-items: center; background-color: var(--background-light-gray); border-radius: 16px; }
-.industry-icon { width: 56px; height: 56px; }
-.industry-text h3 { margin-top: 0; margin-bottom: 10px; font-size: 1.25em; }
-.industry-text p { margin: 0; color: var(--text-color-light); font-size: 0.95em;}
+.industry-icon-wrapper { 
+    flex-shrink: 0; 
+    width: 130px; height: 130px; /* Увеличен размер контейнера */
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background-color: #f0f3f6; 
+    border-radius: 24px; 
+}
+.industry-icon { 
+    width: 120px; height: 120px; /* Увеличен размер иконки */
+}
+.industry-text h3 { 
+    margin-top: 0; 
+    margin-bottom: 10px; 
+    font-size: 1.3em; 
+}
+.industry-text p { 
+    margin: 0; 
+    color: var(--text-color-light); 
+    font-size: 1em;
+    min-height: 3.2em; 
+}
+.industry-text p:last-of-type {
+    min-height: auto;
+}
 
 /* --- ФОРМА ЗАЯВКИ (FORM SECTION) --- */
 .form-section { background-color: var(--background-color); }
@@ -104,25 +143,12 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 #telegram-form { display: flex; flex-direction: column; gap: 16px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 #telegram-form input, #telegram-form textarea { width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 1em; font-family: var(--font-family); background-color: #f7f8fa; transition: box-shadow 0.3s ease; box-sizing: border-box; }
-#telegram-form textarea { min-height: 160px; /* Увеличена высота поля */ resize: vertical; }
+#telegram-form textarea { min-height: 160px; resize: vertical; }
 #telegram-form input:focus, #telegram-form textarea:focus { box-shadow: 0 0 0 3px rgba(0, 133, 117, 0.3); outline: none; }
 #telegram-form .btn { width: 100%; margin-top: 8px; }
-
-/* Текст о политике конфиденциальности */
-.privacy-note {
-    font-size: 0.8em;
-    color: var(--text-color-light);
-    text-align: left; /* Выравнивание по левому краю */
-    margin-top: 12px;
-    line-height: 1.5;
-}
-.privacy-note a {
-    text-decoration: underline;
-    color: var(--text-color-light);
-}
-.privacy-note a:hover {
-    color: var(--accent-color);
-}
+.privacy-note { font-size: 0.8em; color: var(--text-color-light); text-align: left; margin-top: 12px; line-height: 1.5; }
+.privacy-note a { text-decoration: underline; color: var(--text-color-light); }
+.privacy-note a:hover { color: var(--accent-color); }
 
 
 /* --- ПОДВАЛ (FOOTER) --- */
@@ -130,7 +156,10 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; }
 .footer-col h4 { font-size: 1.05em; color: #fff; margin-bottom: 20px; font-weight: 500; }
 .footer-col .logo span { color: #fff; font-size: 1.4em; }
-.footer-col .logo .logo-footer { height: 80px; width: auto; }
+.footer-col .logo .logo-footer { 
+    height: 150px; /* Увеличен логотип в подвале */
+    width: auto; 
+}
 .footer-col a { color: #d1d1d6; }
 .footer-col a:hover { color: #fff; }
 .footer-links ul { list-style: none; padding: 0; margin: 0; }
@@ -175,7 +204,8 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     section { padding: 60px 0; }
     .section-title, h1 { font-size: 2.2em; }
     .nav-links { display: none; }
-    .nav-content { justify-content: space-between; }
+    .nav-content { justify-content: space-between; height: 80px;} /* Адаптация высоты шапки */
+    .logo .logo-header { height: 60px; } /* Адаптация лого в шапке */
     .nav-contact a { font-size: 1em; }
     .hero { text-align: center; padding: 80px 0; }
     .hero-text { text-align: center; }
@@ -183,6 +213,7 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     .hero-subtitle { margin: 0 auto 30px auto; }
     .features-grid, .industries-grid, .footer-grid { grid-template-columns: 1fr; }
     .industries-grid { gap: 20px; }
+    .industry-item { flex-direction: column; text-align: center; } /* Иконка над текстом на мобильных */
     .form-row { grid-template-columns: 1fr; }
     .footer-grid { text-align: center; gap: 30px; }
     .footer-col .logo { justify-content: center; }
