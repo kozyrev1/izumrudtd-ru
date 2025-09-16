@@ -104,6 +104,7 @@ a:hover { text-decoration: underline; }
 .form-footer { display: flex; align-items: center; gap: 20px; }
 .privacy-checkbox { display: flex; align-items: flex-start; line-height: 1.4; color: var(--text-color-light); font-size: 0.85em; }
 .privacy-checkbox input[type="checkbox"] { margin-right: 10px; min-width: 16px; margin-top: 4px; }
+.btn:disabled { background-color: #86868b; cursor: not-allowed; opacity: 0.8; }
 
 .footer { background-color: var(--footer-background); color: #d1d1d6; padding: 60px 0 20px 0; font-size: 0.95em; }
 .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
