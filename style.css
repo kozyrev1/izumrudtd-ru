@@ -219,3 +219,174 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     .footer-col .logo { justify-content: center; }
     .modal-content { flex-direction: column; text-align: center; }
 }
+/* --- УЛУЧШЕНИЯ ДЛЯ БЛОКА ПРЕИМУЩЕСТВ (FEATURES) v2.0 --- */
+
+.features-grid {
+    /* Эта строка заставит все карточки в ряду растянуться на одну высоту */
+    align-items: stretch;
+}
+
+.feature-item {
+    /* Выстраиваем контент внутри карточки вертикально */
+    display: flex;
+    flex-direction: column;
+    /* Выравниваем текст по левому краю для лучшей читаемости */
+    text-align: left;
+}
+
+.feature-item h3 {
+    /* ЖЕЛЕЗОБЕТОННЫЙ ФИКС: Задаем ФИКСИРОВАННУЮ высоту для заголовка,
+       чтобы все они были одинаковыми и тексты ниже начинались с одной линии */
+    height: 3.5em; /* Этого хватит для 2 строк текста с запасом */
+    margin-bottom: 20px; /* Добавим фиксированный отступ после заголовка */
+}
+
+.feature-item p {
+    /* Убираем все старые правила, они больше не нужны */
+    margin-top: 0;
+    min-height: 0;
+}
+/* --- ЭЛЕГАНТНЫЙ iOS-СТИЛЬ ДЛЯ БЛОКА ОТРАСЛЕЙ --- */
+
+.industries-grid {
+    /* Эта строка заставит все карточки в ряду растянуться на одну высоту */
+    align-items: stretch;
+}
+
+.industry-item {
+    /* Возвращаем горизонтальную компоновку */
+    flex-direction: row;
+    align-items: center; /* Вертикально выравниваем иконку и текст */
+    text-align: left;    /* Выравниваем текст по левому краю */
+    padding: 25px 30px;  /* Делаем внутренние отступы более сбалансированными */
+    gap: 25px;           /* Уменьшаем отступ между иконкой и текстом */
+}
+
+.industry-icon-wrapper {
+    /* Сбрасываем старые отступы */
+    margin: 0;
+    /* Делаем фон иконки значительно меньше и изящнее */
+    width: 80px;
+    height: 80px;
+    border-radius: 18px; /* Более характерный для iOS радиус */
+    flex-shrink: 0;      /* Запрещаем контейнеру иконки сжиматься */
+}
+
+.industry-icon {
+    /* Подгоняем размер иконки под новый контейнер */
+    width: 44px;
+    height: 44px;
+}
+
+.industry-text {
+    /* Заставляем текстовый блок занимать все доступное место */
+    flex-grow: 1;
+    /* Превращаем его во flex-контейнер для управления внутренними элементами */
+    display: flex;
+    flex-direction: column;
+}
+
+.industry-text h3 {
+    min-height: 0; /* Сбрасываем старые правила */
+    margin-bottom: 12px;
+}
+
+.industry-text p {
+    /* Этот трюк заставит блок с марками "прилипнуть" к низу */
+    flex-grow: 1; 
+    font-size: 0.95em;
+    color: var(--text-color-light);
+}
+
+.industry-text p:last-of-type {
+    /* Отменяем растягивание для последнего элемента */
+    flex-grow: 0;
+    margin-top: 15px; /* Добавляем отступ сверху */
+    font-weight: 500;  /* Делаем марки чуть заметнее */
+    color: var(--text-color); /* Возвращаем основной цвет текста */
+}
+/* --- ФИНАЛЬНЫЙ СТИЛЬ ДЛЯ ФУТЕРА v4.0 (PIXEL PERFECT) --- */
+
+.footer {
+    background-color: var(--background-light-gray);
+    color: var(--text-color-light);
+    padding: 80px 0 30px 0;
+    font-size: 0.95em;
+}
+
+.footer-grid {
+    grid-template-columns: 1.5fr 1fr 1.5fr;
+    gap: 40px;
+    align-items: start; /* Выравниваем колонки по верхнему краю */
+}
+
+.footer-col h4 {
+    font-size: 1.05em;
+    color: var(--text-color);
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* 1-я колонка: Компания (с центровкой) */
+.footer-info {
+    /* Центрируем все содержимое колонки */
+    text-align: center;
+}
+.footer-info .logo {
+    display: block;
+    margin-bottom: 25px;
+}
+.footer-info .logo-footer {
+    /* Значительно увеличиваем логотип */
+    height: 110px; 
+    width: auto;
+    /* Центрируем сам логотип, если он блочный */
+    margin-left: auto;
+    margin-right: auto;
+}
+.footer-info .description {
+    line-height: 1.6;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 2-я колонка: Навигация */
+.footer-links a {
+    color: var(--text-color-light);
+}
+.footer-links a:hover {
+    color: var(--accent-color);
+}
+.footer-links ul { list-style: none; padding: 0; margin: 0; }
+.footer-links li { margin-bottom: 16px; }
+
+/* 3-я колонка: Контакты и Реквизиты */
+.footer-requisites .contact-block {
+    margin-bottom: 30px;
+}
+.footer-requisites .contact-block a {
+    display: block;
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 1.05em;
+    line-height: 1.7;
+}
+.footer-requisites .requisites-block p {
+    line-height: 1.7;
+    margin-bottom: 5px;
+}
+.footer-requisites .address {
+    /* Это правило запретит перенос строки в адресе */
+    white-space: nowrap;
+}
+
+
+/* Нижняя строка с копирайтом */
+.footer-bottom {
+    border-top: 1px solid #e5e5e5;
+    margin-top: 70px;
+    padding-top: 30px;
+    color: #a0a0a5;
+    font-size: 0.9em;
+}
