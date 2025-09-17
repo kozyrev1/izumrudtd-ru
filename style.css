@@ -1,9 +1,7 @@
-/* --- ДИЗАЙН-СИСТЕМА v3.5 (iOS-стиль) --- */
-
+/* --- СИСТЕМА ДИЗАЙНА v3.5 (iOS-стиль) --- */
 :root {
     /* Системный шрифт, как в iOS/macOS */
     --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-
     --background-color: #ffffff;
     --background-light-gray: #f7f8fa;
     --text-color: #1d1d1f;
@@ -13,12 +11,10 @@
     --card-background: #ffffff;
     --header-background: rgba(255, 255, 255, 0.8);
     --header-border: #e8e8e8;
-    --footer-background: #2a2a2e;
     --border-color: #dfe1e5;
     --success-color: #2e7d32;
     --error-color: #d32f2f;
 }
-
 /* --- ОБЩИЕ СТИЛИ --- */
 body {
     font-family: var(--font-family);
@@ -45,7 +41,6 @@ a { color: var(--accent-color); text-decoration: none; transition: color 0.3s ea
 a:hover { color: var(--accent-color-hover); text-decoration: none; }
 .section-title { font-size: 2.5em; margin-bottom: 20px; color: #000; font-weight: 700; text-align: center; }
 .section-subtitle { text-align: center; font-size: 1.1em; color: var(--text-color-light); margin-top: 0; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
-
 /* --- ШАПКА САЙТА --- */
 .main-nav { background-color: var(--header-background); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid var(--header-border); position: sticky; top: 0; z-index: 100; }
 .nav-content { 
@@ -64,7 +59,6 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 .nav-links a { color: var(--text-color); text-decoration: none; font-size: 1em; font-weight: 500; }
 .nav-links a:hover { color: var(--accent-color); }
 .nav-contact a { font-weight: 500; text-decoration: none; font-size: 1.1em; color: var(--text-color); }
-
 /* --- ГЛАВНЫЙ ЭКРАН (HERO) --- */
 .hero { background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('images/hero-background.jpg') no-repeat center center/cover; color: #fff; padding: 140px 0; text-align: left; }
 .hero-content { display: flex; align-items: center; min-height: 45vh; }
@@ -75,56 +69,6 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 .btn:hover { background-color: var(--accent-color-hover); transform: translateY(-3px); box-shadow: 0 7px 20px rgba(0, 133, 117, 0.3); }
 .btn:disabled { background-color: #86868b; cursor: not-allowed; opacity: 0.8; box-shadow: none; transform: none; }
 
-/* --- ПРЕИМУЩЕСТВА (FEATURES) --- */
-.features { background-color: var(--background-color); }
-.features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
-.feature-item { background-color: var(--card-background); padding: 30px; border-radius: 20px; border: 1px solid #f0f0f0; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.feature-item:hover { transform: translateY(-8px); box-shadow: 0 12px 35px rgba(0,0,0,0.08); }
-.feature-item img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 25px; }
-.feature-item h3 { margin-bottom: 10px; font-size: 1.2em; }
-.feature-item p { color: var(--text-color-light); font-size: 0.95em; }
-
-/* --- ОТРАСЛИ (INDUSTRIES) --- */
-.industries { background-color: var(--background-light-gray); }
-.industries-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
-.industry-item { 
-    background-color: var(--card-background); 
-    padding: 40px; 
-    border-radius: 24px; 
-    border: 1px solid #eef0f2; 
-    display: flex; 
-    gap: 35px; 
-    align-items: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; 
-}
-.industry-item:hover { transform: translateY(-8px); box-shadow: 0 12px 35px rgba(0,0,0,0.08); }
-.industry-icon-wrapper { 
-    flex-shrink: 0; 
-    width: 130px; height: 130px; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    background-color: #f0f3f6; 
-    border-radius: 24px; 
-}
-.industry-icon { 
-    width: 72px; height: 72px; 
-}
-.industry-text h3 { 
-    margin-top: 0; 
-    margin-bottom: 10px; 
-    font-size: 1.3em; 
-}
-.industry-text p { 
-    margin: 0; 
-    color: var(--text-color-light); 
-    font-size: 1em;
-    min-height: 3.2em; 
-}
-.industry-text p:last-of-type {
-    min-height: auto;
-}
-
 /* --- ФОРМА ЗАЯВКИ (FORM SECTION) --- */
 .form-section { background-color: var(--background-color); }
 .form-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
@@ -133,7 +77,6 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 .form-benefits { list-style: none; padding-left: 0; }
 .form-benefits li { display: flex; align-items: baseline; gap: 12px; margin-bottom: 15px; font-size: 1.05em; font-weight: 500; }
 .form-benefits li::before { content: '✓'; color: var(--accent-color); font-weight: bold; font-size: 1.2em; }
-
 .form-container-wrapper { position: relative; }
 .form-container { background: #fff; padding: 40px; border-radius: 24px; box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
 .form-success-message { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #fff; border-radius: 24px; text-align: center; opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s; z-index: 2; padding: 20px; box-sizing: border-box; }
@@ -149,22 +92,6 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 .privacy-note { font-size: 0.8em; color: var(--text-color-light); text-align: left; margin-top: 12px; line-height: 1.5; }
 .privacy-note a { text-decoration: underline; color: var(--text-color-light); }
 .privacy-note a:hover { color: var(--accent-color); }
-
-
-/* --- ПОДВАЛ (FOOTER) --- */
-.footer { background-color: var(--footer-background); color: #d1d1d6; padding: 70px 0 20px 0; font-size: 0.95em; }
-.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; }
-.footer-col h4 { font-size: 1.05em; color: #fff; margin-bottom: 20px; font-weight: 500; }
-.footer-col .logo span { color: #fff; font-size: 1.4em; }
-.footer-col .logo .logo-footer { 
-    height: 90px; /* Сбалансированный размер логотипа */
-    width: auto; 
-}
-.footer-col a { color: #d1d1d6; }
-.footer-col a:hover { color: #fff; }
-.footer-links ul { list-style: none; padding: 0; margin: 0; }
-.footer-links li { margin-bottom: 12px; }
-.footer-bottom { border-top: 1px solid #4f4f4f; margin-top: 50px; padding-top: 25px; text-align: center; color: #86868b; font-size: 0.9em; }
 
 /* --- УВЕДОМЛЕНИЯ И МОДАЛЬНЫЕ ОКНА --- */
 .notification-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 3000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; backdrop-filter: blur(5px); }
@@ -193,39 +120,11 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 .privacy-page p, .privacy-page li { color: var(--text-color-light); }
 .privacy-page a.btn { margin-top: 30px; }
 
-/* --- АДАПТИВНОСТЬ --- */
-@media (max-width: 1024px) {
-    .features-grid { grid-template-columns: repeat(2, 1fr); }
-    .form-layout { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-    .form-text h2 { text-align: center; }
-    .form-benefits { display: inline-block; text-align: left; }
-}
-@media (max-width: 768px) {
-    section { padding: 60px 0; }
-    .section-title, h1 { font-size: 2.2em; }
-    .nav-links { display: none; }
-    .nav-content { justify-content: space-between; height: 80px;} /* Адаптация высоты шапки */
-    .logo .logo-header { height: 60px; } /* Адаптация лого в шапке */
-    .nav-contact a { font-size: 1em; }
-    .hero { text-align: center; padding: 80px 0; }
-    .hero-text { text-align: center; }
-    .hero h1 { font-size: 2.8em; }
-    .hero-subtitle { margin: 0 auto 30px auto; }
-    .features-grid, .industries-grid, .footer-grid { grid-template-columns: 1fr; }
-    .industries-grid { gap: 20px; }
-    .industry-item { flex-direction: column; text-align: center; } /* Иконка над текстом на мобильных */
-    .form-row { grid-template-columns: 1fr; }
-    .footer-grid { text-align: center; gap: 30px; }
-    .footer-col .logo { justify-content: center; }
-    .modal-content { flex-direction: column; text-align: center; }
-}
 /* --- УЛУЧШЕНИЯ ДЛЯ БЛОКА ПРЕИМУЩЕСТВ (FEATURES) v2.0 --- */
-
 .features-grid {
     /* Эта строка заставит все карточки в ряду растянуться на одну высоту */
     align-items: stretch;
 }
-
 .feature-item {
     /* Выстраиваем контент внутри карточки вертикально */
     display: flex;
@@ -233,26 +132,31 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     /* Выравниваем текст по левому краю для лучшей читаемости */
     text-align: left;
 }
-
+.feature-item img {
+    /* Добавляем стили для картинок */
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
 .feature-item h3 {
     /* ЖЕЛЕЗОБЕТОННЫЙ ФИКС: Задаем ФИКСИРОВАННУЮ высоту для заголовка,
        чтобы все они были одинаковыми и тексты ниже начинались с одной линии */
     height: 3.5em; /* Этого хватит для 2 строк текста с запасом */
     margin-bottom: 20px; /* Добавим фиксированный отступ после заголовка */
 }
-
 .feature-item p {
     /* Убираем все старые правила, они больше не нужны */
     margin-top: 0;
     min-height: 0;
 }
-/* --- ЭЛЕГАНТНЫЙ iOS-СТИЛЬ ДЛЯ БЛОКА ОТРАСЛЕЙ --- */
 
+/* --- ЭЛЕГАНТНЫЙ iOS-СТИЛЬ ДЛЯ БЛОКА ОТРАСЛЕЙ --- */
 .industries-grid {
     /* Эта строка заставит все карточки в ряду растянуться на одну высоту */
     align-items: stretch;
 }
-
 .industry-item {
     /* Возвращаем горизонтальную компоновку */
     flex-direction: row;
@@ -261,7 +165,6 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     padding: 25px 30px;  /* Делаем внутренние отступы более сбалансированными */
     gap: 25px;           /* Уменьшаем отступ между иконкой и текстом */
 }
-
 .industry-icon-wrapper {
     /* Сбрасываем старые отступы */
     margin: 0;
@@ -270,14 +173,16 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     height: 80px;
     border-radius: 18px; /* Более характерный для iOS радиус */
     flex-shrink: 0;      /* Запрещаем контейнеру иконки сжиматься */
+    display: flex;       /* Центрируем иконку внутри */
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f3f6; 
 }
-
 .industry-icon {
     /* Подгоняем размер иконки под новый контейнер */
     width: 44px;
     height: 44px;
 }
-
 .industry-text {
     /* Заставляем текстовый блок занимать все доступное место */
     flex-grow: 1;
@@ -285,19 +190,17 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     display: flex;
     flex-direction: column;
 }
-
 .industry-text h3 {
     min-height: 0; /* Сбрасываем старые правила */
     margin-bottom: 12px;
 }
-
 .industry-text p {
     /* Этот трюк заставит блок с марками "прилипнуть" к низу */
     flex-grow: 1; 
     font-size: 0.95em;
     color: var(--text-color-light);
+    margin: 0;
 }
-
 .industry-text p:last-of-type {
     /* Отменяем растягивание для последнего элемента */
     flex-grow: 0;
@@ -305,28 +208,27 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     font-weight: 500;  /* Делаем марки чуть заметнее */
     color: var(--text-color); /* Возвращаем основной цвет текста */
 }
-/* --- ФИНАЛЬНЫЙ СТИЛЬ ДЛЯ ФУТЕРА v4.0 (PIXEL PERFECT) --- */
 
+/* --- ФИНАЛЬНЫЙ СТИЛЬ ДЛЯ ФУТЕРА v4.0 (PIXEL PERFECT) --- */
 .footer {
     background-color: var(--background-light-gray);
     color: var(--text-color-light);
     padding: 80px 0 30px 0;
-    font-size: 0.95em;
+    font-size: 0.95em; /* Немного увеличим базовый шрифт для читаемости */
 }
-
 .footer-grid {
+    /* Возвращаемся к 3-колоночной сетке, но с другими пропорциями */
+    display: grid; /* Убедимся, что это grid */
     grid-template-columns: 1.5fr 1fr 1.5fr;
     gap: 40px;
     align-items: start; /* Выравниваем колонки по верхнему краю */
 }
-
 .footer-col h4 {
     font-size: 1.05em;
     color: var(--text-color);
     margin-bottom: 25px;
     font-weight: 600;
 }
-
 /* 1-я колонка: Компания (с центровкой) */
 .footer-info {
     /* Центрируем все содержимое колонки */
@@ -350,17 +252,15 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     margin-left: auto;
     margin-right: auto;
 }
-
 /* 2-я колонка: Навигация */
 .footer-links a {
-    color: var(--text-color-light);
+    color: var(--text-color-light); /* Делаем ссылки чуть менее контрастными */
 }
 .footer-links a:hover {
     color: var(--accent-color);
 }
 .footer-links ul { list-style: none; padding: 0; margin: 0; }
 .footer-links li { margin-bottom: 16px; }
-
 /* 3-я колонка: Контакты и Реквизиты */
 .footer-requisites .contact-block {
     margin-bottom: 30px;
@@ -369,7 +269,7 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     display: block;
     color: var(--text-color);
     font-weight: 500;
-    font-size: 1.05em;
+    font-size: 1.05em; /* Делаем телефон и почту чуть крупнее */
     line-height: 1.7;
 }
 .footer-requisites .requisites-block p {
@@ -380,8 +280,6 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     /* Это правило запретит перенос строки в адресе */
     white-space: nowrap;
 }
-
-
 /* Нижняя строка с копирайтом */
 .footer-bottom {
     border-top: 1px solid #e5e5e5;
@@ -389,4 +287,57 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
     padding-top: 30px;
     color: #a0a0a5;
     font-size: 0.9em;
+}
+
+/* --- АДАПТИВНОСТЬ --- */
+@media (max-width: 1024px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .form-layout { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+    .form-text h2 { text-align: center; }
+    .form-benefits { display: inline-block; text-align: left; }
+    /* Добавим адаптивность для футера на планшетах */
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 50px;
+    }
+}
+@media (max-width: 768px) {
+    section { padding: 60px 0; }
+    .section-title, h1 { font-size: 2.2em; }
+    .nav-links { display: none; }
+    .nav-content { justify-content: space-between; height: 80px;} /* Адаптация высоты шапки */
+    .logo .logo-header { height: 60px; } /* Адаптация лого в шапке */
+    .nav-contact a { font-size: 1em; }
+    .hero { text-align: center; padding: 80px 0; }
+    .hero-text { text-align: center; }
+    .hero h1 { font-size: 2.8em; }
+    .hero-subtitle { margin: 0 auto 30px auto; }
+    .features-grid, .industries-grid { grid-template-columns: 1fr; }
+    .industries-grid { gap: 20px; }
+    .industry-item { flex-direction: row; text-align: left; } /* Возвращаем горизонтальную верстку */
+    .form-row { grid-template-columns: 1fr; }
+    .modal-content { flex-direction: column; text-align: center; }
+    
+    /* --- ИСПРАВЛЕНИЯ ДЛЯ ФУТЕРА НА МОБИЛЬНЫХ --- */
+    .footer-grid { 
+        grid-template-columns: 1fr; /* Возвращаем одноколоночную структуру */
+        text-align: center;          /* Центрируем текст для аккуратного вида */
+        gap: 40px;                   /* Увеличиваем отступ между блоками */
+    }
+    .footer-info {
+        /* Центрируем логотип и текст под ним */
+        text-align: center;
+    }
+    .footer-requisites {
+        /* Центрируем блок с контактами */
+        text-align: center;
+    }
+    .footer-requisites .contact-block a {
+        /* Центрируем ссылки внутри блока */
+        margin: 0 auto;
+    }
+    .footer-requisites .address {
+        /* ВАЖНО: Разрешаем адресу снова переноситься на несколько строк */
+        white-space: normal;
+    }
 }
