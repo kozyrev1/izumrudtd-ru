@@ -150,4 +150,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return response.json();
     }
+       // --- Отслеживание кликов по виджетам соцсетей ---
+    const tgLink = document.getElementById('tg-widget-link');
+    const waLink = document.getElementById('wa-widget-link');
+
+    if (tgLink) {
+        tgLink.addEventListener('click', function() {
+            ym(104165339, 'reachGoal', 'click-tg');
+            console.log('Цель достигнута: click-tg'); // Для проверки в консоли
+        });
+    }
+
+    if (waLink) {
+        waLink.addEventListener('click', function() {
+            ym(104165339, 'reachGoal', 'click-wa');
+            console.log('Цель достигнута: click-wa'); // Для проверки в консоли
+        });
+    }
+    // ▲▲▲ КОНЕЦ БЛОКА ▲▲▲
 });
