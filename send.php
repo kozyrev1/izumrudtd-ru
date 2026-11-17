@@ -1,6 +1,6 @@
 <?php
 // ===== Настройки =====
-$to      = 'td.ural-izumrud@yandex.ru';
+$to      = 'noreply@izumrudtd.ru';
 $subject = 'Новая заявка с сайта izumrudtd.ru';
 $headers = 'From: no-reply@izumrudtd.ru' . "\r\n" .
            'Reply-To: no-reply@izumrudtd.ru' . "\r\n" .
