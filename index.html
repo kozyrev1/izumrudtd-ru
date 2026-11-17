@@ -195,10 +195,40 @@
 
                             <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp-field">
 
-                            <label class="consent-label">
-                                <input type="checkbox" name="consent" required>
-                                <span>Я даю <a href="privacy.html" target="_blank">согласие на обработку персональных данных</a> и ознакомился с <a href="privacy.html" target="_blank">Политикой</a></span>
+                            <label class="privacy-consent-label">
+                              <input type="checkbox" name="agree" required aria-required="true">
+                              <span class="privacy-text">
+                                Я даю согласие на обработку персональных данных и ознакомился с
+                                <a href="privacy.html" target="_blank" rel="noopener noreferrer" class="privacy-link">Политикой конфиденциальности</a>.
+                              </span>
                             </label>
+                            
+                            <style>
+                              .privacy-consent-label {
+                                display: block;
+                                font-size: 14px;
+                                line-height: 1.5;
+                                color: #333;
+                              }
+                              .privacy-text {
+                                display: inline-block;
+                                vertical-align: middle;
+                              }
+                              .privacy-link {
+                                color: #007bff; /* синий цвет ссылки */
+                                text-decoration: underline;
+                                text-underline-offset: 2px;
+                                transition: color 0.2s ease, text-decoration-color 0.2s ease;
+                              }
+                              .privacy-link:hover {
+                                color: #0056b3;
+                                text-decoration-color: #0056b3;
+                              }
+                              .privacy-link:focus {
+                                outline: 2px solid #007bff;
+                                outline-offset: 2px;
+                              }
+                            </style>
 
                             <button type="submit" class="btn">Получить расчет и паспорт</button>
                         </form>
