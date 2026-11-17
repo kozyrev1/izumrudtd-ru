@@ -199,12 +199,12 @@ a:hover { color: var(--accent-color-hover); text-decoration: none; }
 .form-success-message.visible { opacity: 1; visibility: visible; }
 .form-success-message h3 { font-size: 1.5em; margin-bottom: 10px; }
 .form-success-message p { color: var(--text-color-light); }
-#telegram-form { display: flex; flex-direction: column; gap: 16px; }
+#contact-form { display: flex; flex-direction: column; gap: 16px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-#telegram-form input, #telegram-form textarea { width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 1em; font-family: var(--font-family); background-color: #f7f8fa; transition: box-shadow 0.3s ease; box-sizing: border-box; }
-#telegram-form textarea { min-height: 160px; resize: vertical; }
-#telegram-form input:focus, #telegram-form textarea:focus { box-shadow: 0 0 0 3px rgba(0, 133, 117, 0.3); outline: none; }
-#telegram-form .btn { width: 100%; margin-top: 8px; }
+#contact-form input, #contact-form textarea { width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 1em; font-family: var(--font-family); background-color: #f7f8fa; transition: box-shadow 0.3s ease; box-sizing: border-box; }
+#contact-form textarea { min-height: 160px; resize: vertical; }
+#contact-form input:focus, #contact-form textarea:focus { box-shadow: 0 0 0 3px rgba(0, 133, 117, 0.3); outline: none; }
+#contact-form .btn { width: 100%; margin-top: 8px; }
 .privacy-note { font-size: 0.8em; color: var(--text-color-light); text-align: left; margin-top: 12px; line-height: 1.5; }
 .privacy-note a { text-decoration: underline; color: var(--text-color-light); }
 .privacy-note a:hover { color: var(--accent-color); }
@@ -436,3 +436,67 @@ body.noscroll {
         white-space: normal;
     }
 }
+.consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 12px 0;
+    font-size: 13px;
+    line-height: 1.4;
+    cursor: pointer;
+}
+.consent-label input[type="checkbox"] {
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+.consent-label a { color: inherit; }
+
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+/* --- ФОРМА: обновлённые селекторы --- */
+#contact-form { display: flex; flex-direction: column; gap: 16px; }
+#contact-form input, #contact-form textarea {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1em;
+    font-family: var(--font-family);
+    background-color: #f7f8fa;
+    transition: box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+#contact-form textarea { min-height: 160px; resize: vertical; }
+#contact-form input:focus, #contact-form textarea:focus { box-shadow: 0 0 0 3px rgba(0, 133, 117, 0.3); outline: none; }
+#contact-form .btn { width: 100%; margin-top: 8px; }
+
+/* --- Чекбокс согласия: исключаем из общего стиля полей --- */
+#contact-form input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin: 3px 0 0 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 4px;
+    accent-color: var(--accent-color);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+#contact-form .consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 4px 0;
+    font-size: 13px;
+    line-height: 1.45;
+    cursor: pointer;
+    text-align: left;
+}
+#contact-form .consent-label span { color: var(--text-color-light); }
