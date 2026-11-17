@@ -203,30 +203,34 @@
                               </span>
                             </label>
                             
-                            <style>
+                           <style>
                               .privacy-consent-label {
-                                display: block;
+                                display: flex;
+                                align-items: flex-start;
+                                gap: 10px;
                                 font-size: 14px;
                                 line-height: 1.5;
                                 color: #333;
+                                cursor: pointer;
+                              }
+                              .privacy-consent-label input[type="checkbox"] {
+                                flex: 0 0 auto;
+                                width: 18px;
+                                height: 18px;
+                                margin-top: 2px;   /* выравнивает чекбокс по первой строке текста */
+                                accent-color: #0f766e; /* фирменный зелёный — как у кнопки */
+                                cursor: pointer;
                               }
                               .privacy-text {
-                                display: inline-block;
-                                vertical-align: middle;
+                                flex: 1;
                               }
                               .privacy-link {
-                                color: #007bff; /* синий цвет ссылки */
+                                color: #0f766e;
                                 text-decoration: underline;
                                 text-underline-offset: 2px;
-                                transition: color 0.2s ease, text-decoration-color 0.2s ease;
                               }
                               .privacy-link:hover {
-                                color: #0056b3;
-                                text-decoration-color: #0056b3;
-                              }
-                              .privacy-link:focus {
-                                outline: 2px solid #007bff;
-                                outline-offset: 2px;
+                                color: #0c5c58;
                               }
                             </style>
 
