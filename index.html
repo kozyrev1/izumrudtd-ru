@@ -12,8 +12,8 @@
     
     <!-- ИКОНКИ FAVICON -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png"sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
     <link rel="shortcut icon" href="/favicon.ico">
@@ -62,13 +62,11 @@
                 <li><a href="#industries">Продукция</a></li>
                 <li><a href="#form">Контакты</a></li>
             </ul>
-             <!-- ▼▼▼ ДОБАВЛЕННЫЙ БЛОК ▼▼▼ -->
             <button class="burger-menu" aria-label="Открыть меню">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <!-- ▲▲▲ КОНЕЦ БЛОКА ▲▲▲ -->
             <div class="nav-contact">
                 <a href="tel:+79826231774">+7 (982) 623-17-74</a>
             </div>
@@ -184,8 +182,7 @@
                 </div>
                 <div class="form-container-wrapper">
                     <div class="form-container">
-                        <form id="telegram-form">
-                            <input type="hidden" name="_subject" id="form-subject">
+                        <form id="contact-form" action="send.php" method="POST">
                             <div class="form-row">
                                 <input type="text" name="name" placeholder="Ваше имя *" required>
                                 <input type="text" name="company" placeholder="Название компании">
@@ -194,17 +191,17 @@
                                 <input type="email" name="email" placeholder="E-mail">
                                 <input type="tel" name="phone" placeholder="+7 (000) 000-00-00 *" required inputmode="tel">
                             </div>
-                            <textarea name="request" placeholder="Например: Тальк ТРПН, 20 тонн, г. Челябинск..."></textarea>
-                            
+                            <textarea name="message" placeholder="Например: Тальк ТРПН, 20 тонн, г. Челябинск..."></textarea>
+
+                            <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp-field">
+
+                            <label class="consent-label">
+                                <input type="checkbox" name="consent" required>
+                                <span>Я даю <a href="consent.html" target="_blank">согласие на обработку персональных данных</a> и ознакомился с <a href="privacy.html" target="_blank">Политикой</a></span>
+                            </label>
+
                             <button type="submit" class="btn">Получить расчет и паспорт</button>
-                            <p class="privacy-note">
-                                Нажимая на кнопку 'Получить расчет и паспорт', вы даёте согласие на <a href="privacy.html" target="_blank">обработку персональных данных</a> в соответствии с Политикой конфиденциальности.
-                            </p>
                         </form>
-                    </div>
-                    <div class="form-success-message" style="display: none;">
-                        <h3>Спасибо!</h3>
-                        <p>Ваша заявка успешно отправлена. Мы скоро с вами свяжемся.</p>
                     </div>
                 </div>
             </div>
@@ -223,7 +220,7 @@
                     <li><a href="#features">О компании</a></li>
                     <li><a href="#industries">Продукция</a></li>
                     <li><a href="#form">Запрос КП</a></li>
-                    <li><a href="privacy.html" target="_blank">Политика конфиденциальности</a></li>
+                    <li><a href="privacy.html" target="_blank">Политика в отношении обработки персональных данных</a></li>
                 </ul>
             </div>
             <div class="footer-col footer-requisites">
@@ -240,7 +237,7 @@
             </div>
         </div>
         <div class="container footer-bottom">
-            <p>© 2025, ООО «ТД «ИЗУМРУД». Информация, представленная на сайте, не является публичной офертой.</p>
+            <p>© 2026, ООО «ТД «ИЗУМРУД». Информация, представленная на сайте, не является публичной офертой.</p>
         </div>
     </footer>
     
@@ -259,17 +256,7 @@
             <div class="modal-actions"><button id="cookie-accept-btn" class="btn">Принять</button></div>
         </div>
     </div>
-    
-    <div id="notification-overlay" class="notification-overlay">
-        <div class="notification-modal">
-            <div class="icon success">✓</div>
-            <h3>Уведомление</h3>
-            <p>Текст уведомления здесь.</p>
-            <button id="notification-close-btn" class="btn-close">Закрыть</button>
-        </div>
-    </div>
-    
-    <script src="config.js"></script>
+       
     <script src="script.js"></script>
 </body>
 </html>
